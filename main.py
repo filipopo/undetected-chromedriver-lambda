@@ -11,6 +11,8 @@ def handler(event=None, context=None):
     os.system(f'cp /opt/chromedriver {driver_path}')
     os.chmod(driver_path, 0o777)
 
+    print("hallo")
+
     options = webdriver.ChromeOptions()
     options.add_argument('--headless=new')
     options.add_argument('--no-sandbox')
