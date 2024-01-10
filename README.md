@@ -27,7 +27,7 @@ Now you are ready to push it
 ```
 docker push 100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest
 ```
-After this you can create a Lambda function using the image url which is `100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest`
+After this you can create a Lambda function using the image url which is `100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest` (you'll need to set the Lambda timeout to more than the default 3 seconds)
 
 You may of course run and interactively test the container yourself before tagging and pushing:
 ```
