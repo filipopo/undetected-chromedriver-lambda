@@ -23,7 +23,7 @@ docker build --platform linux/amd64 -t filipmania/undetected-chromedriver-lambda
 ```
 and tag it
 ```
-dock tag filipmania/undetected-chromedriver-lambda:latest 100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest
+docker tag filipmania/undetected-chromedriver-lambda:latest 100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest
 ```
 Now you are ready to push it
 ```
