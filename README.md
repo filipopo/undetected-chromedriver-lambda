@@ -17,7 +17,7 @@ docker pull filipmania/undetected-chromedriver-lambda:latest
 ```
 or
 ```
-docker build -t filipmania/undetected-chromedriver-lambda:latest .
+docker build --platform linux/amd64 -t filipmania/undetected-chromedriver-lambda:latest .
 ```
 and tag it
 ```
