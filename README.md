@@ -3,6 +3,8 @@ A minimal working example of using undetected-chromedriver on AWS Lambda
 
 This repo will attempt to use the latest versions of undetected-chromedriver and it's based on https://github.com/umihico/docker-selenium-lambda
 ## Quick start guide
+These instructions are based on AWS provided instructions found here: https://docs.aws.amazon.com/lambda/latest/dg/python-image.html#python-image-instructions
+
 To deploy this on AWS you will need an ECR repository, you can run the following command to create it
 ```
 aws ecr create-repository --repository-name undetected-chromedriver-lambda  --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
