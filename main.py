@@ -8,7 +8,7 @@ def handler(event=None, context=None):
     driver_path = '/tmp/chromedriver'
     browser_path = '/opt/chrome/chrome'
 
-    os.system(f'cp /opt/chromedriver {driver_path}')
+    os.system(f'cp -u /opt/chromedriver {driver_path}')
     os.chmod(driver_path, 0o777)
 
     options = webdriver.ChromeOptions()
