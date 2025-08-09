@@ -24,12 +24,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Build Docker image
+      - name: Build and push Docker image
         run: |
           IMAGE=${{ secrets.DOCKER_USERNAME }}/undetected-chromedriver-lambda
-          docker build -t ${IMAGE}:${GITHUB_RUN_ID} -t ${IMAGE}:latest .
 
-      - name: Push Docker image
-        run: |
+          docker build -t ${IMAGE}:${GITHUB_RUN_ID} -t ${IMAGE}:latest .
           docker push ${IMAGE}:${GITHUB_RUN_ID}
           docker push ${IMAGE}:latest
