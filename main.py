@@ -29,3 +29,6 @@ def handler(event=None, context=None):
     chrome.get('https://google.com/')
 
     return chrome.find_element(by=By.XPATH, value='//html').text
+
+if os.getenv('AWS_LAMBDA_FUNCTION_NAME') is None:
+    handler()
