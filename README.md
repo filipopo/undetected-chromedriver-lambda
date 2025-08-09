@@ -41,6 +41,4 @@ docker exec -it (CONTAINER ID) /bin/sh
 
 https://github.com/umihico/docker-selenium-lambda
 
-and
-
 https://github.com/ultrafunkamsterdam/undetected-chromedriver
