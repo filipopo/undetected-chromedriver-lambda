@@ -6,37 +6,37 @@ These instructions are based on AWS provided instructions found [here](https://d
 
 To deploy this on AWS you will need an ECR repository, you can run the following command to create it
 
-```
+```bash
 aws ecr create-repository --repository-name undetected-chromedriver-lambda  --image-scanning-configuration scanOnPush=true --image-tag-mutability MUTABLE
 ```
 
 Next you will need login credentials to use with docker for your region and aws_account_id e.g us-east-1 and 100000000000, be sure to replace these with your own
 
-```
+```bash
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 100000000000.dkr.ecr.us-east-1.amazonaws.com
 ```
 
 Next get the image
 
-```
+```bash
 docker pull filipmania/undetected-chromedriver-lambda:latest
 ```
 
 or
 
-```
+```bash
 docker build --platform linux/amd64 -t filipmania/undetected-chromedriver-lambda:latest .
 ```
 
 and tag it
 
-```
+```bash
 docker tag filipmania/undetected-chromedriver-lambda:latest 100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest
 ```
 
 Now you are ready to push it
 
-```
+```bash
 docker push 100000000000.dkr.ecr.us-east-1.amazonaws.com/undetected-chromedriver-lambda:latest
 ```
 
@@ -44,23 +44,26 @@ After this you can create a Lambda function using the image url which is `100000
 
 ## Advanced usage
 
-To get more than a minimal example, change the code and then run the container
-
-```
-docker run --name demo -p 9000:8080 filipmania/undetected-chromedriver-lambda:latest
-```
+To get more than a minimal example, change the code, rebuild the image, and then run the container
 
 ### Dynamic url
 
-Change [this line](https://github.com/filipopo/undetected-chromedriver-lambda/blob/main/main.py#L29) to `chrome.get(event.get('url'))` and invoke the url set by [amazon/aws-lambda-python](https://hub.docker.com/r/amazon/aws-lambda-python#usage), any JSON in -d is passed to the function's event argument
+Change [this line](https://github.com/filipopo/undetected-chromedriver-lambda/blob/fa605abf8ef13151d89c4c049dc745f4f0670814/main.py#L29) to `chrome.get(event.get('url'))`, prepare the container
 
+```bash
+docker build --platform linux/amd64 -t filipmania/undetected-chromedriver-lambda:latest .
+docker run -p 9000:8080 filipmania/undetected-chromedriver-lambda:latest
 ```
+
+Then invoke the url set by [amazon/aws-lambda-python](https://hub.docker.com/r/amazon/aws-lambda-python#usage), any JSON in -d is passed to the function's event
+
+```bash
 curl 'http://localhost:9000/2015-03-31/functions/function/invocations' -d '{"url": "https://example.com"}'
 ```
 
 You can also have a fallback like `chrome.get(event.get('url', 'https://example.com'))`, in which case you can invoke the url like this
 
-```
+```bash
 curl 'http://localhost:9000/2015-03-31/functions/function/invocations' -d '{}'
 ```
 
@@ -68,21 +71,22 @@ curl 'http://localhost:9000/2015-03-31/functions/function/invocations' -d '{}'
 
 Add the following to the end of main.py
 
-```
+```python
 if __name__ == '__main__' and os.getenv('AWS_LAMBDA_FUNCTION_NAME') is None:
     print(handler())
 ```
 
 Now you can run the function outside of Lambda
 
-```
-docker exec demo python main.py
+```bash
+docker build --platform linux/amd64 -t filipmania/undetected-chromedriver-lambda:latest .
+docker run --entrypoint python filipmania/undetected-chromedriver-lambda:latest main.py
 ```
 
 You can add a dynamic url to this setup with something like
 
-```
-event = {'target': sys.argv[1]} if len(sys.argv) > 1 else {}
+```python
+event = {'url': sys.argv[1]} if len(sys.argv) > 1 else {}
 ```
 
 ## Thanks to
